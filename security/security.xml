@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- Categoría de la aplicación -->
+    <record id="module_category_cantina" model="ir.module.category">
+        <field name="name">Cantina</field>
+        <field name="sequence">50</field>
+    </record>
+
+    <!-- Privilegios de Cantina -->
+    <record id="privilege_cantina" model="res.groups.privilege">
+        <field name="name">Cantina</field>
+        <field name="category_id" ref="module_category_cantina"/>
+    </record>
+
+    <!-- Grupo de empleados -->
+    <record id="group_cantina_user" model="res.groups">
+        <field name="name">Empleado</field>
+        <field name="privilege_id" ref="privilege_cantina"/>
+        <field name="implied_ids" eval="[(4, ref('base.group_user'))]"/>
+    </record>
+
+    <!-- Grupo de administración -->
+    <record id="group_cantina_manager" model="res.groups">
+        <field name="name">Administradora de Cantina</field>
+        <field name="privilege_id" ref="privilege_cantina"/>
+        <field name="implied_ids" eval="[(4, ref('base.group_user')), (4, ref('point_of_sale.group_pos_user'))]"/>
+    </record>
+
+    <!-- Los administradores del sistema también administran Cantina -->
+    <record id="base.group_system" model="res.groups">
+        <field name="implied_ids" eval="[(4, ref('group_cantina_manager'))]"/>
+    </record>
+
+    <!-- EMPLEADOS: solamente sus pedidos -->
+    <record id="rule_cantina_order_employee_own" model="ir.rule">
+        <field name="name">Empleado: sus pedidos</field>
+        <field name="model_id" ref="model_cantina_order"/>
+        <field name="groups" eval="[(4, ref('group_cantina_user'))]"/>
+        <field name="domain_force">[('user_id', '=', user.id)]</field>
+    </record>
+
+    <!-- EMPLEADOS: solamente las líneas de sus pedidos -->
+    <record id="rule_cantina_order_line_employee_own" model="ir.rule">
+        <field name="name">Empleado: líneas de sus pedidos</field>
+        <field name="model_id" ref="model_cantina_order_line"/>
+        <field name="groups" eval="[(4, ref('group_cantina_user'))]"/>
+        <field name="domain_force">[('order_id.user_id', '=', user.id)]</field>
+    </record>
+
+    <!-- ADMINISTRADORA: ve todos los pedidos (sin esta regla, si además tiene
+         el grupo Empleado, Odoo solo le muestra sus propios pedidos) -->
+    <record id="rule_cantina_order_manager_all" model="ir.rule">
+        <field name="name">Administradora: todos los pedidos</field>
+        <field name="model_id" ref="model_cantina_order"/>
+        <field name="groups" eval="[(4, ref('group_cantina_manager'))]"/>
+        <field name="domain_force">[(1, '=', 1)]</field>
+    </record>
+
+    <record id="rule_cantina_order_line_manager_all" model="ir.rule">
+        <field name="name">Administradora: todas las líneas de pedidos</field>
+        <field name="model_id" ref="model_cantina_order_line"/>
+        <field name="groups" eval="[(4, ref('group_cantina_manager'))]"/>
+        <field name="domain_force">[(1, '=', 1)]</field>
+    </record>
+
+</odoo>

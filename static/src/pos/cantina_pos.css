@@ -1,0 +1,121 @@
+
+/* =========================================
+   CANTINA - ODOO 19
+   DISTRIBUCION DEL PUNTO DE VENTA
+   ========================================= */
+
+/* PANEL PRINCIPAL */
+body.pos .product-screen {
+    display: flex !important;
+    flex-direction: row !important;
+    width: 100% !important;
+    min-width: 0 !important;
+}
+
+/* PANEL BLANCO IZQUIERDO: 50% */
+body.pos .product-screen .leftpane {
+    width: 50vw !important;
+    min-width: 50vw !important;
+    max-width: 50vw !important;
+
+    flex: 0 0 50vw !important;
+    flex-shrink: 0 !important;
+
+    box-sizing: border-box !important;
+}
+
+/* PANEL DERECHO: TODO EL ESPACIO RESTANTE */
+body.pos .product-screen .rightpane {
+    width: 50vw !important;
+    min-width: 0 !important;
+    max-width: none !important;
+
+    flex: 1 1 auto !important;
+
+    box-sizing: border-box !important;
+}
+
+/* =========================================
+   BOTONES INFERIORES
+   ========================================= */
+
+body.pos .leftpane .control-buttons {
+    width: 100% !important;
+    box-sizing: border-box !important;
+}
+
+/* BOTON CLIENTE */
+body.pos .leftpane .set-partner {
+    min-width: 90px !important;
+    min-height: 65px !important;
+    padding: 8px 10px !important;
+
+    white-space: normal !important;
+    text-align: center !important;
+    flex-shrink: 0 !important;
+
+    font-size: 15px !important;
+    line-height: 1.3 !important;
+}
+
+/* BOTON PEDIDOS CANTINA */
+body.pos .leftpane .cantina-orders-button {
+    width: 135px !important;
+    min-width: 135px !important;
+    min-height: 65px !important;
+
+    padding: 8px !important;
+
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: center !important;
+    justify-content: center !important;
+
+    gap: 4px !important;
+
+    white-space: normal !important;
+    text-align: center !important;
+
+    flex-shrink: 0 !important;
+
+    font-size: 14px !important;
+    line-height: 1.3 !important;
+}
+
+/* ICONO PEDIDOS */
+body.pos .cantina-orders-button i {
+    font-size: 17px !important;
+    margin: 0 !important;
+}
+
+/* BOTONES RESTANTES */
+body.pos .leftpane .control-buttons button {
+    box-sizing: border-box !important;
+    flex-shrink: 0 !important;
+    white-space: normal !important;
+}
+
+/* BOTON NOTA */
+body.pos .leftpane .control-buttons button:has(.fa-sticky-note),
+body.pos .leftpane .control-buttons button:has(.fa-pencil) {
+    min-width: 85px !important;
+    padding: 8px !important;
+}
+
+/* =========================================
+   RESPONSIVE
+   ========================================= */
+
+@media (max-width: 768px) {
+    body.pos .product-screen .leftpane {
+        width: 50vw !important;
+        min-width: 50vw !important;
+        max-width: 50vw !important;
+        flex-basis: 50vw !important;
+    }
+
+    body.pos .leftpane .cantina-orders-button {
+        width: 115px !important;
+        min-width: 115px !important;
+    }
+}

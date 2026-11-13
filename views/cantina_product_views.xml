@@ -1,0 +1,197 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Productos -->
+    <record id="view_cantina_product_list" model="ir.ui.view">
+        <field name="name">cantina.product.list</field>
+        <field name="model">cantina.product</field>
+        <field name="arch" type="xml">
+            <list decoration-warning="stock_state == 'low'" decoration-danger="stock_state == 'out'">
+                <field name="name"/>
+                <field name="category_id"/>
+                <field name="price"/>
+                <field name="stock"/>
+                <field name="min_stock" optional="show"/>
+                <field name="stock_state" widget="badge"
+                       decoration-success="stock_state == 'ok'"
+                       decoration-warning="stock_state == 'low'"
+                       decoration-danger="stock_state == 'out'"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="view_cantina_product_kanban" model="ir.ui.view">
+        <field name="name">cantina.product.kanban</field>
+        <field name="model">cantina.product</field>
+        <field name="arch" type="xml">
+            <kanban class="o_cantina_kanban" group_create="0" records_draggable="0">
+                <templates>
+                    <t t-name="card">
+                        <div class="o_cantina_pcard">
+                            <div class="o_cantina_pcard_photo">
+                                <field name="image_256" widget="image" options="{'img_class': 'o_cantina_pcard_img'}"/>
+                            </div>
+                            <div class="o_cantina_pcard_body">
+                                <field name="name" class="o_cantina_pcard_name"/>
+                                <field name="category_id" class="o_cantina_pcard_cat"/>
+                                <div class="o_cantina_pcard_row">
+                                    <span class="o_cantina_pcard_price">Gs. <field name="price"/></span>
+                                    <span class="o_cantina_pcard_units"><field name="stock"/> unidades</span>
+                                </div>
+                                <field name="stock_state" widget="badge"
+                                       decoration-success="stock_state == 'ok'"
+                                       decoration-warning="stock_state == 'low'"
+                                       decoration-danger="stock_state == 'out'"/>
+                            </div>
+                        </div>
+                    </t>
+                </templates>
+            </kanban>
+        </field>
+    </record>
+
+    <record id="view_cantina_product_form" model="ir.ui.view">
+        <field name="name">cantina.product.form</field>
+        <field name="model">cantina.product</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <field name="image" widget="image" class="oe_avatar"
+                           options="{'preview_image': 'image_256'}"/>
+                    <div class="oe_title">
+                        <label for="name"/>
+                        <h1><field name="name" placeholder="Ej: Milanesa de carne"/></h1>
+                    </div>
+                    <group>
+                        <group string="Datos">
+                            <field name="category_id" options="{'no_create': True}"/>
+                            <field name="description"/>
+                            <field name="active"/>
+                        </group>
+                        <group string="Precio y stock">
+                            <field name="price"/>
+                            <field name="stock"/>
+                            <field name="min_stock"/>
+                            <field name="stock_state" widget="badge"
+                                   decoration-success="stock_state == 'ok'"
+                                   decoration-warning="stock_state == 'low'"
+                                   decoration-danger="stock_state == 'out'"/>
+                        </group>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="view_cantina_product_search" model="ir.ui.view">
+        <field name="name">cantina.product.search</field>
+        <field name="model">cantina.product</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="name"/>
+                <field name="category_id"/>
+                <filter name="low" string="Stock bajo" domain="[('low_stock', '=', True)]"/>
+                <filter name="out" string="Agotados" domain="[('stock_state', '=', 'out')]"/>
+                <separator/>
+                <filter name="archived" string="Archivados" domain="[('active', '=', False)]"/>
+                <group>
+                    <filter name="group_category" string="Categoría" context="{'group_by': 'category_id'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <record id="view_cantina_product_graph" model="ir.ui.view">
+        <field name="name">cantina.product.graph</field>
+        <field name="model">cantina.product</field>
+        <field name="arch" type="xml">
+            <graph string="Stock por categoría" type="bar">
+                <field name="category_id"/>
+                <field name="stock" type="measure"/>
+            </graph>
+        </field>
+    </record>
+
+    <record id="view_cantina_product_pivot" model="ir.ui.view">
+        <field name="name">cantina.product.pivot</field>
+        <field name="model">cantina.product</field>
+        <field name="arch" type="xml">
+            <pivot string="Stock por categoría">
+                <field name="category_id" type="row"/>
+                <field name="stock" type="measure"/>
+            </pivot>
+        </field>
+    </record>
+
+    <record id="action_cantina_product" model="ir.actions.act_window">
+        <field name="name">Productos</field>
+        <field name="res_model">cantina.product</field>
+        <field name="view_mode">kanban,list,form</field>
+    </record>
+
+    <record id="action_cantina_stock" model="ir.actions.act_window">
+        <field name="name">Stock</field>
+        <field name="res_model">cantina.product</field>
+        <field name="view_mode">list,form</field>
+        <field name="context">{'search_default_group_category': 1}</field>
+    </record>
+
+    <record id="action_cantina_stock_low" model="ir.actions.act_window">
+        <field name="name">Stock bajo</field>
+        <field name="res_model">cantina.product</field>
+        <field name="view_mode">list,kanban,form</field>
+        <field name="domain">[('low_stock', '=', True)]</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">¡Todo en orden!</p>
+            <p>No hay productos con stock bajo.</p>
+        </field>
+    </record>
+
+    <record id="action_cantina_report" model="ir.actions.act_window">
+        <field name="name">Reportes de stock</field>
+        <field name="res_model">cantina.product</field>
+        <field name="view_mode">graph,pivot,list</field>
+    </record>
+
+    <!-- Categorías -->
+    <record id="view_cantina_category_list" model="ir.ui.view">
+        <field name="name">cantina.category.list</field>
+        <field name="model">cantina.category</field>
+        <field name="arch" type="xml">
+            <list>
+                <field name="sequence" widget="handle"/>
+                <field name="name"/>
+                <field name="icon"/>
+                <field name="color"/>
+                <field name="product_count"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="view_cantina_category_form" model="ir.ui.view">
+        <field name="name">cantina.category.form</field>
+        <field name="model">cantina.category</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <group>
+                        <group>
+                            <field name="name"/>
+                            <field name="icon"/>
+                            <field name="color"/>
+                        </group>
+                        <group>
+                            <field name="sequence"/>
+                            <field name="product_count"/>
+                        </group>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_cantina_category" model="ir.actions.act_window">
+        <field name="name">Categorías</field>
+        <field name="res_model">cantina.category</field>
+        <field name="view_mode">list,form</field>
+    </record>
+</odoo>

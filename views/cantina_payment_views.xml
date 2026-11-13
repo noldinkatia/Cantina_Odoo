@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- Ventana de cobro -->
+    <record id="view_cantina_order_pay_wizard_form" model="ir.ui.view">
+        <field name="name">cantina.order.pay.wizard.form</field>
+        <field name="model">cantina.order.pay.wizard</field>
+        <field name="arch" type="xml">
+            <form string="Cobrar pedido">
+                <field name="order_id" invisible="1"/>
+                <field name="allowed_method_ids" invisible="1"/>
+                <field name="is_cash" invisible="1"/>
+                <group>
+                    <group>
+                        <field name="employee_id"/>
+                        <field name="department_id"/>
+                    </group>
+                    <group>
+                        <field name="total"/>
+                        <field name="payment_method_id"
+                               domain="[('id', 'in', allowed_method_ids)]"
+                               options="{'no_create': True, 'no_open': True}"/>
+                        <field name="amount_received" invisible="not is_cash"/>
+                        <field name="change_amount" invisible="not is_cash"/>
+                    </group>
+                </group>
+                <footer>
+                    <button name="action_confirm" type="object" string="Confirmar cobro"
+                            class="btn-primary" data-hotkey="q"/>
+                    <button string="Cancelar" special="cancel" data-hotkey="x"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+
+    <!-- Abrir la caja (Punto de Venta) -->
+    <record id="action_cantina_open_pos" model="ir.actions.server">
+        <field name="name">Caja</field>
+        <field name="model_id" ref="model_cantina_config"/>
+        <field name="state">code</field>
+        <field name="code">action = model.action_open_pos_ui()</field>
+    </record>
+
+</odoo>

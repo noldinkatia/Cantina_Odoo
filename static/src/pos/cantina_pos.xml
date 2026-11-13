@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates id="template" xml:space="preserve">
+
+    <t t-name="cantina_app.ControlButtons"
+       t-inherit="point_of_sale.ControlButtons"
+       t-inherit-mode="extension">
+
+        <xpath expr="//SelectPartnerButton" position="after">
+            <button
+                t-if="!props.showRemainingButtons"
+                class="btn btn-secondary btn-lg border-0 cantina-orders-button"
+                t-on-click="() => this.openCantinaOrders()">
+
+                <i class="fa fa-list-alt me-2"/>
+                Pedidos Cantina
+
+            </button>
+        </xpath>
+
+    </t>
+
+</templates>

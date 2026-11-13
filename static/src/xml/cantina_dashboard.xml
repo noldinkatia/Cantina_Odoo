@@ -1,0 +1,692 @@
+<templates xml:space="preserve">
+
+    <!-- ====================================== -->
+    <!-- PANEL ADMINISTRATIVO                  -->
+    <!-- ====================================== -->
+
+    <t t-name="cantina_app.Dashboard">
+        <div class="o_cantina_app">
+
+            <aside class="o_cantina_sidebar">
+                <nav class="o_cantina_nav">
+
+                    <button type="button" class="o_cantina_nav_item active">
+                        <i class="fa fa-home"/>
+                        <span>Inicio</span>
+                    </button>
+
+                    <t t-foreach="navSections" t-as="section" t-key="section.title">
+                        <div class="o_cantina_nav_title">
+                            <i class="fa fa-circle"/>
+                            <span t-out="section.title"/>
+                        </div>
+
+                        <t t-foreach="section.items" t-as="item" t-key="item.label">
+                            <button type="button"
+                                    class="o_cantina_nav_item"
+                                    t-on-click="() => this.onNav(item)">
+                                <i t-attf-class="fa {{ item.icon }}"/>
+                                <span t-out="item.label"/>
+                            </button>
+                        </t>
+                    </t>
+                </nav>
+
+                <div class="o_cantina_welcome">
+                    <div class="o_cantina_welcome_script">
+                        ¡Bienvenido!
+                    </div>
+                    <div class="o_cantina_welcome_hat">
+                        <i class="fa fa-cutlery"/>
+                    </div>
+                    <div class="o_cantina_welcome_title">
+                        Sistema de cantina
+                    </div>
+                    <div class="o_cantina_welcome_sub">
+                        Cantina Central
+                    </div>
+                </div>
+            </aside>
+
+            <main class="o_cantina_main">
+
+                <div class="o_cantina_page_title">
+                    <i class="fa fa-home"/>
+                    <span>Inicio</span>
+                </div>
+
+                <div class="o_cantina_layout">
+
+                    <div class="o_cantina_col_main">
+
+                        <!-- Banner -->
+                        <section class="o_cantina_banner">
+                            <div class="o_cantina_banner_logo">
+                                <i class="fa fa-cutlery"/>
+                            </div>
+
+                            <div class="o_cantina_banner_text">
+                                <h1>Cantina Central</h1>
+                                <p>Sistema de gestión de cantina</p>
+                            </div>
+
+                            <div class="o_cantina_banner_right">
+                                <div class="o_cantina_banner_date">
+                                    <i class="fa fa-calendar"/>
+                                    <span t-out="nowLabel"/>
+                                </div>
+                            </div>
+                        </section>
+
+                        <div class="o_cantina_breadcrumb">
+                            <i class="fa fa-home"/>
+                            <span>›</span>
+                            <span>Cantina</span>
+                            <span class="o_cantina_breadcrumb_sep">/</span>
+                            <span class="text-muted">Inicio</span>
+                        </div>
+
+                        <!-- Indicadores -->
+                        <section class="o_cantina_kpis">
+
+                            <div class="o_cantina_kpi"
+                                 t-on-click="() => this.openAction('cantina_app.action_cantina_product')">
+                                <div class="o_cantina_kpi_icon o_cantina_bg_purple">
+                                    <i class="fa fa-cube"/>
+                                </div>
+                                <div class="o_cantina_kpi_value"
+                                     t-out="state.data.kpis.products"/>
+                                <div class="o_cantina_kpi_title">
+                                    Productos
+                                </div>
+                                <div class="o_cantina_kpi_sub">
+                                    Total registrados
+                                </div>
+                            </div>
+
+                            <div class="o_cantina_kpi"
+                                 t-on-click="() => this.openAction('cantina_app.action_cantina_stock_low')">
+                                <div class="o_cantina_kpi_icon o_cantina_bg_orange">
+                                    <i class="fa fa-cube"/>
+                                </div>
+                                <div class="o_cantina_kpi_value"
+                                     t-out="state.data.kpis.low_stock"/>
+                                <div class="o_cantina_kpi_title">
+                                    Stock bajo
+                                </div>
+                                <div class="o_cantina_kpi_sub">
+                                    Requieren atención
+                                </div>
+                            </div>
+
+                            <div class="o_cantina_kpi"
+                                 t-on-click="updateMenu">
+                                <div class="o_cantina_kpi_icon o_cantina_bg_green">
+                                    <i class="fa fa-shopping-cart"/>
+                                </div>
+                                <div class="o_cantina_kpi_value"
+                                     t-out="state.data.kpis.menu_count"/>
+                                <div class="o_cantina_kpi_title">
+                                    Menú del día
+                                </div>
+                                <div class="o_cantina_kpi_sub">
+                                    Platos disponibles
+                                </div>
+                            </div>
+
+                            <div class="o_cantina_kpi"
+                                 t-on-click="() => this.openAction('cantina_app.action_cantina_weekly')">
+                                <div class="o_cantina_kpi_icon o_cantina_bg_purple">
+                                    <i class="fa fa-calendar"/>
+                                </div>
+                                <div class="o_cantina_kpi_value"
+                                     t-out="state.data.kpis.fixed_days"/>
+                                <div class="o_cantina_kpi_title">
+                                    Días fijos
+                                </div>
+                                <div class="o_cantina_kpi_sub">
+                                    Menú semanal
+                                </div>
+                            </div>
+
+                        </section>
+
+                        <!-- Stock y menú -->
+                        <section class="o_cantina_panels">
+
+                            <!-- Stock por categoría -->
+                            <div class="o_cantina_card">
+                                <div class="o_cantina_card_header">
+                                    <h3>
+                                        <span class="o_cantina_title_icon">
+                                            <i class="fa fa-cubes"/>
+                                        </span>
+                                        Stock actual por categoría
+                                    </h3>
+                                </div>
+
+                                <table class="o_cantina_table">
+                                    <thead>
+                                        <tr>
+                                            <th>Categoría</th>
+                                            <th class="text-center">Productos</th>
+                                            <th class="text-center">Total Stock</th>
+                                            <th class="text-center">Stock Bajo</th>
+                                        </tr>
+                                    </thead>
+
+                                    <tbody>
+                                        <t t-foreach="state.data.categories"
+                                           t-as="cat"
+                                           t-key="cat.id">
+                                            <tr>
+                                                <td>
+                                                    <span t-attf-class="o_cantina_cat_icon o_cantina_bg_{{ cat.color }}">
+                                                        <i t-attf-class="fa {{ cat.icon }}"/>
+                                                    </span>
+                                                    <span t-out="cat.name"/>
+                                                </td>
+
+                                                <td class="text-center"
+                                                    t-out="cat.products"/>
+
+                                                <td class="text-center">
+                                                    <span class="o_cantina_pill o_cantina_pill_green"
+                                                          t-out="cat.stock"/>
+                                                </td>
+
+                                                <td class="text-center">
+                                                    <span t-attf-class="o_cantina_pill {{ cat.low ? 'o_cantina_pill_orange' : 'o_cantina_pill_plain' }}"
+                                                          t-out="cat.low"/>
+                                                </td>
+                                            </tr>
+                                        </t>
+                                    </tbody>
+                                </table>
+
+                                <div class="o_cantina_card_footer">
+                                    <a href="#"
+                                       class="o_cantina_link"
+                                       t-on-click.prevent="() => this.openAction('cantina_app.action_cantina_stock')">
+                                        Ver inventario completo
+                                        <i class="fa fa-arrow-right"/>
+                                    </a>
+                                </div>
+                            </div>
+
+                            <!-- Menú del día -->
+                            <div class="o_cantina_card">
+                                <div class="o_cantina_card_header">
+                                    <h3>
+                                        <span class="o_cantina_title_icon">
+                                            <i class="fa fa-cutlery"/>
+                                        </span>
+                                        Menú del día
+                                    </h3>
+
+                                    <div class="o_cantina_datenav">
+                                        <button type="button"
+                                                class="o_cantina_round_btn"
+                                                t-on-click="() => this.shiftDay(-1)">
+                                            <i class="fa fa-chevron-left"/>
+                                        </button>
+
+                                        <button type="button"
+                                                class="o_cantina_date_btn"
+                                                t-on-click="goToday"
+                                                title="Ir a hoy">
+                                            <i class="fa fa-calendar"/>
+                                            <span t-out="menuDateLabel"/>
+                                        </button>
+
+                                        <button type="button"
+                                                class="o_cantina_round_btn"
+                                                t-on-click="() => this.shiftDay(1)">
+                                            <i class="fa fa-chevron-right"/>
+                                        </button>
+                                    </div>
+                                </div>
+
+                                <t t-if="state.data.menu.lines.length">
+                                    <div class="o_cantina_dishes">
+                                        <t t-foreach="state.data.menu.lines"
+                                           t-as="line"
+                                           t-key="line.id">
+
+                                            <div class="o_cantina_dish">
+                                                <img t-if="line.has_image"
+                                                     class="o_cantina_dish_img"
+                                                     t-att-src="imageUrl(line)"
+                                                     t-att-alt="line.name"/>
+
+                                                <div t-else=""
+                                                     class="o_cantina_dish_img o_cantina_dish_noimg">
+                                                    <i class="fa fa-cutlery"/>
+                                                </div>
+
+                                                <div class="o_cantina_dish_info">
+                                                    <div class="o_cantina_dish_name"
+                                                         t-out="line.name"/>
+
+                                                    <div class="o_cantina_dish_desc"
+                                                         t-out="line.description"/>
+
+                                                    <div class="o_cantina_dish_price"
+                                                         t-out="formatPrice(line.price)"/>
+                                                </div>
+
+                                                <span t-attf-class="o_cantina_pill o_cantina_pill_{{ stateClass(line.state) }}">
+                                                    <i t-attf-class="fa {{ stateIcon(line.state) }}"/>
+                                                    <t t-out="line.state_label"/>
+                                                </span>
+                                            </div>
+                                        </t>
+                                    </div>
+                                </t>
+
+                                <div t-else="" class="o_cantina_empty">
+                                    <i class="fa fa-cutlery fa-2x"/>
+                                    <p>No hay menú cargado para este día.</p>
+                                </div>
+
+                                <div class="o_cantina_card_footer">
+                                    <a href="#"
+                                       class="o_cantina_link"
+                                       t-on-click.prevent="() => this.openAction('cantina_app.action_cantina_menu')">
+                                        Ver menú completo
+                                        <i class="fa fa-arrow-right"/>
+                                    </a>
+                                </div>
+                            </div>
+
+                        </section>
+                    </div>
+
+                    <!-- Columna lateral -->
+                    <div class="o_cantina_col_side">
+
+                        <!-- Acciones rápidas -->
+                        <div class="o_cantina_card">
+                            <div class="o_cantina_card_header">
+                                <h3>
+                                    <span class="o_cantina_title_icon">
+                                        <i class="fa fa-bolt"/>
+                                    </span>
+                                    Acciones rápidas
+                                </h3>
+                            </div>
+
+                            <div class="o_cantina_actions">
+
+                                <button type="button"
+                                        class="o_cantina_action_btn"
+                                        t-on-click="newProduct">
+                                    <i class="fa fa-plus-square fa-2x"/>
+                                    <span>Registrar producto</span>
+                                </button>
+
+                                <button type="button"
+                                        class="o_cantina_action_btn"
+                                        t-on-click="updateMenu">
+                                    <i class="fa fa-calendar-check-o fa-2x"/>
+                                    <span>Actualizar menú</span>
+                                </button>
+
+                                <button type="button"
+                                        class="o_cantina_action_btn"
+                                        t-on-click="() => this.openAction('cantina_app.action_cantina_report')">
+                                    <i class="fa fa-bar-chart fa-2x"/>
+                                    <span>Ver reportes</span>
+                                </button>
+
+                                <button type="button"
+                                        class="o_cantina_action_btn"
+                                        t-on-click="() => this.openAction('cantina_app.action_cantina_weekly')">
+                                    <i class="fa fa-calendar fa-2x"/>
+                                    <span>Menú semanal</span>
+                                </button>
+
+                            </div>
+                        </div>
+
+                        <!-- Menú semanal -->
+                        <div class="o_cantina_card">
+                            <div class="o_cantina_card_header">
+                                <h3>
+                                    <span class="o_cantina_title_icon">
+                                        <i class="fa fa-calendar"/>
+                                    </span>
+                                    Menú semanal fijo
+                                </h3>
+
+                                <span t-if="state.data.weekly.length"
+                                      class="o_cantina_pill o_cantina_pill_green">
+                                    Activo
+                                </span>
+                            </div>
+
+                            <div class="o_cantina_week">
+                                <t t-foreach="state.data.weekly"
+                                   t-as="w"
+                                   t-key="w.id">
+                                    <div class="o_cantina_week_row">
+                                        <span class="o_cantina_week_day"
+                                              t-out="w.day"/>
+
+                                        <span class="o_cantina_week_desc"
+                                              t-out="w.description"/>
+                                    </div>
+                                </t>
+
+                                <div t-if="!state.data.weekly.length"
+                                     class="o_cantina_empty">
+                                    <p>Todavía no cargaste el menú semanal.</p>
+                                </div>
+                            </div>
+
+                            <div class="o_cantina_card_footer">
+                                <a href="#"
+                                   class="o_cantina_link"
+                                   t-on-click.prevent="() => this.openAction('cantina_app.action_cantina_weekly')">
+                                    Editar menú semanal
+                                    <i class="fa fa-arrow-right"/>
+                                </a>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </main>
+        </div>
+    </t>
+
+
+    <!-- ====================================== -->
+    <!-- PANEL DEL EMPLEADO                    -->
+    <!-- ====================================== -->
+
+    <t t-name="cantina_app.EmployeeDashboard">
+        <div class="o_cantina_app o_cantina_employee_app">
+
+            <aside class="o_cantina_emp_sidebar">
+                <div class="o_cantina_emp_brand">
+                    <i class="fa fa-cutlery fa-2x"/>
+                    <h3>Cantina Central</h3>
+                    <small>Portal del empleado</small>
+                </div>
+
+                <nav class="o_cantina_emp_nav">
+                    <button type="button"
+                            t-attf-class="o_cantina_emp_nav_btn {{ state.page === 'home' ? 'active' : '' }}"
+                            t-on-click="() => this.setPage('home')">
+                        <i class="fa fa-home me-2"/> Inicio
+                    </button>
+                    <button type="button"
+                            t-attf-class="o_cantina_emp_nav_btn {{ state.page === 'menu' ? 'active' : '' }}"
+                            t-on-click="() => this.setPage('menu')">
+                        <i class="fa fa-cutlery me-2"/> Menú diario
+                        <span t-if="cartItems.length" class="o_cantina_emp_badge" t-out="cartItems.length"/>
+                    </button>
+                    <button type="button"
+                            t-attf-class="o_cantina_emp_nav_btn {{ state.page === 'products' ? 'active' : '' }}"
+                            t-on-click="() => this.setPage('products')">
+                        <i class="fa fa-cubes me-2"/> Productos
+                    </button>
+                </nav>
+            </aside>
+
+            <main class="o_cantina_emp_main">
+
+                <section class="o_cantina_banner">
+                    <div class="o_cantina_banner_logo">
+                        <i class="fa fa-cutlery"/>
+                    </div>
+                    <div class="o_cantina_banner_text">
+                        <h1>Cantina Central</h1>
+                        <p>Menú y pedidos de empleados</p>
+                    </div>
+                </section>
+
+                <t t-if="state.data">
+
+                    <!-- ============ INICIO ============ -->
+                    <t t-if="state.page === 'home'">
+                        <section class="o_cantina_card o_cantina_gap">
+                            <div class="o_cantina_card_header">
+                                <h3>
+                                    <i class="fa fa-user"/>
+                                    ¡Hola, <t t-out="state.data.employee"/>!
+                                </h3>
+                            </div>
+                            <p>
+                                Departamento:
+                                <strong t-out="state.data.department || 'Sin departamento'"/>
+                            </p>
+                            <p>Mirá el menú de hoy y hacé tu pedido.</p>
+                            <button type="button" class="btn btn-primary"
+                                    t-on-click="() => this.setPage('menu')">
+                                <i class="fa fa-cutlery"/> Ver menú diario
+                            </button>
+                        </section>
+
+                        <section class="o_cantina_card o_cantina_gap">
+                            <div class="o_cantina_card_header">
+                                <h3><i class="fa fa-history"/> Mis últimos pedidos</h3>
+                            </div>
+
+                            <t t-if="state.data.orders.length">
+                                <t t-foreach="state.data.orders" t-as="order" t-key="order.id">
+                                    <div class="o_cantina_order_row">
+                                        <div class="d-flex justify-content-between flex-wrap">
+                                            <span>
+                                                <strong t-out="order.name"/>
+                                                <span t-if="order.paid" class="o_cantina_pill o_cantina_pill_green">Pagado</span>
+                                                <span t-else="" class="o_cantina_pill o_cantina_pill_orange">Pendiente de pago</span>
+                                            </span>
+                                            <strong t-out="formatPrice(order.total)"/>
+                                        </div>
+                                        <div class="text-muted" t-out="order.date"/>
+                                        <div t-foreach="order.lines" t-as="item" t-key="item_index">
+                                            <span t-out="item.quantity"/> x
+                                            <span t-out="item.name"/> —
+                                            <span t-out="formatPrice(item.subtotal)"/>
+                                        </div>
+                                    </div>
+                                </t>
+                            </t>
+                            <div t-else="" class="o_cantina_empty">
+                                <p>Todavía no realizaste pedidos.</p>
+                            </div>
+                        </section>
+                    </t>
+
+                    <!-- ============ MENÚ DIARIO ============ -->
+                    <t t-elif="state.page === 'menu'">
+                        <section class="o_cantina_card o_cantina_gap">
+                            <div class="o_cantina_card_header">
+                                <h3><i class="fa fa-cutlery"/> Menú de hoy</h3>
+                                <span class="o_cantina_pill o_cantina_pill_plain" t-out="state.data.date"/>
+                            </div>
+
+                            <div class="o_cantina_filters" t-if="state.data.menu.length">
+                                <button type="button"
+                                        t-attf-class="o_cantina_chip {{ state.menuCategory === 0 ? 'active' : '' }}"
+                                        t-on-click="() => this.setMenuCategory(0)">
+                                    <i class="fa fa-th-large"/> Todos
+                                    <span class="o_cantina_chip_count" t-out="state.data.menu.length"/>
+                                </button>
+                                <t t-foreach="menuCategories" t-as="cat" t-key="cat.id">
+                                    <button type="button"
+                                            t-attf-class="o_cantina_chip {{ state.menuCategory === cat.id ? 'active' : '' }}"
+                                            t-on-click="() => this.setMenuCategory(cat.id)">
+                                        <i t-attf-class="fa {{ cat.icon }}"/>
+                                        <t t-out="cat.name"/>
+                                        <span class="o_cantina_chip_count" t-out="menuCategoryCount(cat.id)"/>
+                                    </button>
+                                </t>
+                            </div>
+
+                            <t t-if="state.data.menu.length">
+                                <div class="o_cantina_dishes">
+                                    <t t-foreach="filteredMenu" t-as="line" t-key="line.id">
+                                        <div class="o_cantina_dish">
+                                            <img t-if="line.has_image"
+                                                 class="o_cantina_dish_img"
+                                                 t-att-src="imageUrl(line)"
+                                                 t-att-alt="line.name"/>
+                                            <div t-else="" class="o_cantina_dish_img o_cantina_dish_noimg">
+                                                <i class="fa fa-cutlery"/>
+                                            </div>
+
+                                            <div class="o_cantina_dish_info">
+                                                <div class="o_cantina_dish_name" t-out="line.name"/>
+                                                <div class="o_cantina_dish_desc" t-out="line.description"/>
+                                                <div class="o_cantina_dish_price" t-out="formatPrice(line.price)"/>
+                                            </div>
+
+                                            <span t-attf-class="o_cantina_pill o_cantina_pill_{{ stateClass(line.state) }}">
+                                                <t t-out="line.state_label"/>
+                                            </span>
+
+                                            <div class="o_cantina_qty">
+                                                <label class="form-label">Cantidad</label>
+                                                <input type="number" min="0" max="100"
+                                                       class="form-control"
+                                                       t-att-value="state.quantities[line.id] || 0"
+                                                       t-att-disabled="line.state === 'out'"
+                                                       t-on-input="(ev) => this.setQuantity(line.id, ev.target.value)"/>
+                                            </div>
+                                        </div>
+                                    </t>
+                                </div>
+                            </t>
+                            <div t-else="" class="o_cantina_empty">
+                                <i class="fa fa-cutlery fa-2x"/>
+                                <p>No hay platos cargados para el menú de hoy.</p>
+                            </div>
+                        </section>
+
+                        <section class="o_cantina_card o_cantina_gap">
+                            <div class="o_cantina_card_header">
+                                <h3><i class="fa fa-shopping-cart"/> Mi pedido</h3>
+                            </div>
+
+                            <t t-if="cartItems.length">
+                                <div class="table-responsive">
+                                    <table class="table">
+                                        <thead>
+                                            <tr>
+                                                <th>Plato</th><th>Cantidad</th><th>Precio</th><th>Subtotal</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <t t-foreach="cartItems" t-as="item" t-key="item.id">
+                                                <tr>
+                                                    <td t-out="item.name"/>
+                                                    <td t-out="item.quantity"/>
+                                                    <td t-out="formatPrice(item.price)"/>
+                                                    <td t-out="formatPrice(item.subtotal)"/>
+                                                </tr>
+                                            </t>
+                                        </tbody>
+                                    </table>
+                                </div>
+
+                                <h3 class="text-end">
+                                    Total: <strong t-out="formatPrice(cartTotal)"/>
+                                </h3>
+
+                                <div class="text-end o_cantina_gap_sm">
+                                    <button type="button" class="btn btn-primary"
+                                            t-att-disabled="state.sending"
+                                            t-on-click="confirmOrder">
+                                        <i class="fa fa-check"/>
+                                        <t t-if="state.sending"> Confirmando...</t>
+                                        <t t-else=""> Confirmar pedido</t>
+                                    </button>
+                                </div>
+                            </t>
+                            <div t-else="" class="o_cantina_empty">
+                                <p>Todavía no seleccionaste ningún plato.</p>
+                            </div>
+                        </section>
+                    </t>
+
+                    <!-- ============ PRODUCTOS ============ -->
+                    <t t-elif="state.page === 'products'">
+                        <section class="o_cantina_card o_cantina_gap">
+                            <div class="o_cantina_card_header">
+                                <h3><i class="fa fa-cubes"/> Productos disponibles</h3>
+                                <span class="o_cantina_pill o_cantina_pill_green">
+                                    <t t-out="filteredProducts.length"/> productos
+                                </span>
+                            </div>
+
+                            <div class="o_cantina_filters" t-if="state.data.products.length">
+                                <button type="button"
+                                        t-attf-class="o_cantina_chip {{ state.productCategory === 0 ? 'active' : '' }}"
+                                        t-on-click="() => this.setProductCategory(0)">
+                                    <i class="fa fa-th-large"/> Todos
+                                    <span class="o_cantina_chip_count" t-out="state.data.products.length"/>
+                                </button>
+                                <t t-foreach="productCategories" t-as="cat" t-key="cat.id">
+                                    <button type="button"
+                                            t-attf-class="o_cantina_chip {{ state.productCategory === cat.id ? 'active' : '' }}"
+                                            t-on-click="() => this.setProductCategory(cat.id)">
+                                        <i t-attf-class="fa {{ cat.icon }}"/>
+                                        <t t-out="cat.name"/>
+                                        <span class="o_cantina_chip_count" t-out="productCategoryCount(cat.id)"/>
+                                    </button>
+                                </t>
+                            </div>
+
+                            <t t-if="state.data.products.length">
+                                <div class="o_cantina_dishes">
+                                    <t t-foreach="filteredProducts" t-as="product" t-key="product.id">
+                                        <div class="o_cantina_dish">
+                                            <img t-if="product.has_image"
+                                                 class="o_cantina_dish_img"
+                                                 t-att-src="productImageUrl(product)"
+                                                 t-att-alt="product.name"/>
+                                            <div t-else="" class="o_cantina_dish_img o_cantina_dish_noimg">
+                                                <i class="fa fa-cube"/>
+                                            </div>
+
+                                            <div class="o_cantina_dish_info">
+                                                <div class="o_cantina_dish_name" t-out="product.name"/>
+                                                <div class="o_cantina_dish_desc" t-out="product.category"/>
+                                                <div t-if="product.description"
+                                                     class="o_cantina_dish_desc" t-out="product.description"/>
+                                                <div class="o_cantina_dish_price" t-out="formatPrice(product.price)"/>
+                                            </div>
+
+                                            <div class="o_cantina_qty text-center">
+                                                <strong t-out="product.stock"/>
+                                                <div class="text-muted">unidades</div>
+                                                <span t-attf-class="o_cantina_pill o_cantina_pill_{{ stateClass(product.stock_state) }}">
+                                                    <t t-out="product.state_label"/>
+                                                </span>
+                                            </div>
+                                        </div>
+                                    </t>
+                                </div>
+                            </t>
+                            <div t-else="" class="o_cantina_empty">
+                                <i class="fa fa-cube fa-2x"/>
+                                <p>No hay productos disponibles en stock.</p>
+                            </div>
+                        </section>
+                    </t>
+
+                </t>
+
+                <div t-else="" class="o_cantina_empty">
+                    <i class="fa fa-spinner fa-spin fa-2x"/>
+                    <p>Cargando menú...</p>
+                </div>
+
+            </main>
+        </div>
+    </t>
+
+</templates>

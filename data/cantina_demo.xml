@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+    Datos de ejemplo para ver el panel completo.
+    Si no los querés, quitá la línea "data/cantina_demo.xml" del __manifest__.py.
+-->
+<odoo noupdate="1">
+    <!-- Comidas -->
+    <record id="demo_prod_milanesa" model="cantina.product">
+        <field name="name">Milanesa de carne</field>
+        <field name="category_id" ref="cantina_category_comidas"/>
+        <field name="description">Con papas y ensalada</field>
+        <field name="price">25000</field>
+        <field name="stock">12</field>
+    </record>
+    <record id="demo_prod_locro" model="cantina.product">
+        <field name="name">Locro casero</field>
+        <field name="category_id" ref="cantina_category_comidas"/>
+        <field name="description">Tradicional locro paraguayo</field>
+        <field name="price">18000</field>
+        <field name="stock">4</field>
+    </record>
+    <record id="demo_prod_asado" model="cantina.product">
+        <field name="name">Asado con ensalada</field>
+        <field name="category_id" ref="cantina_category_comidas"/>
+        <field name="description">Carne asada con ensalada mixta</field>
+        <field name="price">20000</field>
+        <field name="stock">10</field>
+    </record>
+    <record id="demo_prod_empanadas" model="cantina.product">
+        <field name="name">Empanadas de carne</field>
+        <field name="category_id" ref="cantina_category_comidas"/>
+        <field name="description">Clásicas empanadas caseras</field>
+        <field name="price">3000</field>
+        <field name="stock">30</field>
+    </record>
+
+    <!-- Bebidas -->
+    <record id="demo_prod_cola" model="cantina.product">
+        <field name="name">Gaseosa 500 ml</field>
+        <field name="category_id" ref="cantina_category_bebidas"/>
+        <field name="price">8000</field>
+        <field name="stock">20</field>
+    </record>
+    <record id="demo_prod_jugo" model="cantina.product">
+        <field name="name">Jugo natural</field>
+        <field name="category_id" ref="cantina_category_bebidas"/>
+        <field name="description">Naranja o limón</field>
+        <field name="price">6000</field>
+        <field name="stock">4</field>
+    </record>
+    <record id="demo_prod_agua" model="cantina.product">
+        <field name="name">Agua mineral</field>
+        <field name="category_id" ref="cantina_category_bebidas"/>
+        <field name="price">4000</field>
+        <field name="stock">15</field>
+    </record>
+
+    <!-- Postres y snacks -->
+    <record id="demo_prod_flan" model="cantina.product">
+        <field name="name">Flan casero</field>
+        <field name="category_id" ref="cantina_category_postres"/>
+        <field name="price">7000</field>
+        <field name="stock">10</field>
+    </record>
+    <record id="demo_prod_alfajor" model="cantina.product">
+        <field name="name">Alfajor</field>
+        <field name="category_id" ref="cantina_category_snacks"/>
+        <field name="price">3500</field>
+        <field name="stock">12</field>
+    </record>
+
+    <!-- Menú del día (hoy) -->
+    <record id="demo_menu_today" model="cantina.menu">
+        <field name="date" eval="time.strftime('%Y-%m-%d')"/>
+    </record>
+    <record id="demo_line_1" model="cantina.menu.line">
+        <field name="menu_id" ref="demo_menu_today"/>
+        <field name="product_id" ref="demo_prod_milanesa"/>
+        <field name="sequence">1</field>
+    </record>
+    <record id="demo_line_2" model="cantina.menu.line">
+        <field name="menu_id" ref="demo_menu_today"/>
+        <field name="product_id" ref="demo_prod_locro"/>
+        <field name="sequence">2</field>
+    </record>
+    <record id="demo_line_3" model="cantina.menu.line">
+        <field name="menu_id" ref="demo_menu_today"/>
+        <field name="product_id" ref="demo_prod_asado"/>
+        <field name="sequence">3</field>
+    </record>
+    <record id="demo_line_4" model="cantina.menu.line">
+        <field name="menu_id" ref="demo_menu_today"/>
+        <field name="product_id" ref="demo_prod_empanadas"/>
+        <field name="sequence">4</field>
+    </record>
+
+    <!-- Menú semanal fijo -->
+    <record id="demo_week_0" model="cantina.weekly.menu">
+        <field name="weekday">0</field>
+        <field name="description">Guiso, poroto, locro</field>
+        <field name="product_ids" eval="[(6, 0, [ref('demo_prod_locro')])]"/>
+    </record>
+    <record id="demo_week_1" model="cantina.weekly.menu">
+        <field name="weekday">1</field>
+        <field name="description">Asado, milanesa, ensalada</field>
+        <field name="product_ids" eval="[(6, 0, [ref('demo_prod_asado'), ref('demo_prod_milanesa')])]"/>
+    </record>
+    <record id="demo_week_2" model="cantina.weekly.menu">
+        <field name="weekday">2</field>
+        <field name="description">Empanadas de carne</field>
+        <field name="product_ids" eval="[(6, 0, [ref('demo_prod_empanadas')])]"/>
+    </record>
+    <record id="demo_week_3" model="cantina.weekly.menu">
+        <field name="weekday">3</field>
+        <field name="description">Pollo con arroz y ensalada</field>
+    </record>
+    <record id="demo_week_4" model="cantina.weekly.menu">
+        <field name="weekday">4</field>
+        <field name="description">Pizza, tarta de verdura</field>
+    </record>
+</odoo>

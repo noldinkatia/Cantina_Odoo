@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo noupdate="1">
+    <!-- Parámetros -->
+    <record id="cantina_config_main" model="cantina.config">
+        <field name="name">Cantina Central</field>
+        <field name="subtitle">Gestioná los productos, el stock y el menú de tu cantina.</field>
+        <field name="default_min_stock">5</field>
+    </record>
+
+    <!-- Categorías -->
+    <record id="cantina_category_comidas" model="cantina.category">
+        <field name="name">Comidas</field>
+        <field name="sequence">1</field>
+        <field name="icon">fa-cutlery</field>
+        <field name="color">orange</field>
+    </record>
+    <record id="cantina_category_bebidas" model="cantina.category">
+        <field name="name">Bebidas</field>
+        <field name="sequence">2</field>
+        <field name="icon">fa-coffee</field>
+        <field name="color">blue</field>
+    </record>
+    <record id="cantina_category_postres" model="cantina.category">
+        <field name="name">Postres</field>
+        <field name="sequence">3</field>
+        <field name="icon">fa-birthday-cake</field>
+        <field name="color">purple</field>
+    </record>
+    <record id="cantina_category_snacks" model="cantina.category">
+        <field name="name">Snacks</field>
+        <field name="sequence">4</field>
+        <field name="icon">fa-shopping-basket</field>
+        <field name="color">orange</field>
+    </record>
+    <record id="cantina_category_otros" model="cantina.category">
+        <field name="name">Otros</field>
+        <field name="sequence">5</field>
+        <field name="icon">fa-plus</field>
+        <field name="color">gray</field>
+    </record>
+
+    <!-- Turnos -->
+    <record id="cantina_shift_morning" model="cantina.shift">
+        <field name="name">Mañana</field>
+        <field name="hour_from">7.0</field>
+        <field name="hour_to">12.0</field>
+    </record>
+    <record id="cantina_shift_afternoon" model="cantina.shift">
+        <field name="name">Tarde</field>
+        <field name="hour_from">12.0</field>
+        <field name="hour_to">18.0</field>
+    </record>
+
+
+<record id="seq_cantina_order" model="ir.sequence">
+    <field name="name">Pedidos de Cantina</field>
+    <field name="code">cantina.order</field>
+    <field name="prefix">PED-</field>
+    <field name="padding">5</field>
+    <field name="company_id" eval="False"/>
+</record>
+
+</odoo>

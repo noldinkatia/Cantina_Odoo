@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Menú del día -->
+    <record id="view_cantina_menu_list" model="ir.ui.view">
+        <field name="name">cantina.menu.list</field>
+        <field name="model">cantina.menu</field>
+        <field name="arch" type="xml">
+            <list>
+                <field name="date"/>
+                <field name="line_count"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="view_cantina_menu_form" model="ir.ui.view">
+        <field name="name">cantina.menu.form</field>
+        <field name="model">cantina.menu</field>
+        <field name="arch" type="xml">
+            <form>
+                <header>
+                    <button name="action_load_weekly" type="object"
+                            string="Cargar menú semanal fijo" class="btn-primary"/>
+                </header>
+                <sheet>
+                    <group>
+                        <field name="date"/>
+                    </group>
+                    <separator string="Platos del día"/>
+                    <field name="line_ids" mode="kanban">
+                        <kanban class="o_cantina_kanban">
+                            <templates>
+                                <t t-name="card">
+                                    <div class="o_cantina_pcard">
+                                        <div class="o_cantina_pcard_photo">
+                                            <field name="image_256" widget="image" options="{'img_class': 'o_cantina_pcard_img'}"/>
+                                        </div>
+                                        <div class="o_cantina_pcard_body">
+                                            <field name="product_id" class="o_cantina_pcard_name"/>
+                                            <field name="description" class="o_cantina_pcard_cat"/>
+                                            <div class="o_cantina_pcard_row">
+                                                <span class="o_cantina_pcard_price">Gs. <field name="price"/></span>
+                                            </div>
+                                            <field name="stock_state" widget="badge"
+                                                   decoration-success="stock_state == 'ok'"
+                                                   decoration-warning="stock_state == 'low'"
+                                                   decoration-danger="stock_state == 'out'"/>
+                                        </div>
+                                    </div>
+                                </t>
+                            </templates>
+                        </kanban>
+                        <form>
+                            <sheet>
+                                <field name="image" widget="image" class="oe_avatar"
+                                       options="{'preview_image': 'image_256'}"/>
+                                <group>
+                                    <field name="product_id"/>
+                                    <field name="description"/>
+                                    <field name="price"/>
+                                    <field name="sequence"/>
+                                </group>
+                                <div class="text-muted">
+                                    La foto se toma del producto. Si subís otra, se usa solo en este menú.
+                                </div>
+                            </sheet>
+                        </form>
+                    </field>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_cantina_menu" model="ir.actions.act_window">
+        <field name="name">Menú diario</field>
+        <field name="res_model">cantina.menu</field>
+        <field name="view_mode">list,form</field>
+    </record>
+
+    <!-- Menú semanal fijo -->
+    <record id="view_cantina_weekly_list" model="ir.ui.view">
+        <field name="name">cantina.weekly.menu.list</field>
+        <field name="model">cantina.weekly.menu</field>
+        <field name="arch" type="xml">
+            <list>
+                <field name="weekday"/>
+                <field name="description"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="view_cantina_weekly_form" model="ir.ui.view">
+        <field name="name">cantina.weekly.menu.form</field>
+        <field name="model">cantina.weekly.menu</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <group>
+                        <field name="weekday"/>
+                        <field name="description"/>
+                        <field name="product_ids" widget="many2many_tags"/>
+                        <field name="active"/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_cantina_weekly" model="ir.actions.act_window">
+        <field name="name">Menú semanal</field>
+        <field name="res_model">cantina.weekly.menu</field>
+        <field name="view_mode">list,form</field>
+    </record>
+</odoo>

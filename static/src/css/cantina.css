@@ -1,0 +1,383 @@
+
+/* Cantina Central - estilos del dashboard para Odoo 19 */
+.o_cantina_app {
+    --cantina-purple: #4b2478;
+    --cantina-purple-dark: #321653;
+    --cantina-purple-light: #f1ebf8;
+    --cantina-bg: #f7f6fa;
+    --cantina-text: #292631;
+    --cantina-muted: #858194;
+    display: grid;
+    grid-template-columns: 232px minmax(0, 1fr);
+    height: 100%;
+    min-height: 0;
+    width: 100%;
+    background: var(--cantina-bg);
+    color: var(--cantina-text);
+    overflow-y: auto;
+    overflow-x: hidden;
+}
+
+/* Navegación lateral */
+.o_cantina_sidebar {
+    display: flex;
+    flex-direction: column;
+    min-height: 100%;
+    padding: 22px 14px 18px;
+    background: #fff;
+    border-right: 1px solid #e9e5ef;
+}
+.o_cantina_nav { display: flex; flex-direction: column; gap: 5px; }
+.o_cantina_nav_item {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    width: 100%;
+    min-height: 42px;
+    padding: 10px 12px;
+    border: 0;
+    border-radius: 9px;
+    background: transparent;
+    color: #514b5d;
+    text-align: left;
+    font: inherit;
+    cursor: pointer;
+    transition: background .15s ease, color .15s ease;
+}
+.o_cantina_nav_item:hover,
+.o_cantina_nav_item.active {
+    color: var(--cantina-purple);
+    background: var(--cantina-purple-light);
+}
+.o_cantina_nav_item i { width: 18px; text-align: center; }
+.o_cantina_nav_title {
+    display: flex;
+    align-items: center;
+    gap: 9px;
+    margin: 19px 10px 5px;
+    color: #9690a1;
+    font-size: .75rem;
+    font-weight: 700;
+    letter-spacing: .06em;
+    text-transform: uppercase;
+}
+.o_cantina_nav_title i { font-size: 7px; }
+.o_cantina_welcome {
+    margin-top: auto;
+    padding: 16px 12px;
+    border-radius: 12px;
+    background: var(--cantina-purple-light);
+    color: var(--cantina-purple);
+    text-align: center;
+}
+.o_cantina_welcome_script { font-weight: 700; }
+.o_cantina_welcome_hat { margin: 9px 0; font-size: 1.35rem; }
+.o_cantina_welcome_title { font-weight: 700; }
+.o_cantina_welcome_sub { margin-top: 3px; color: var(--cantina-muted); font-size: .82rem; }
+
+/* Área principal y distribución */
+.o_cantina_main {
+    display: block;
+    min-width: 0;
+    padding: 24px;
+}
+.o_cantina_page_title {
+    display: flex;
+    align-items: center;
+    gap: 9px;
+    margin: 0 0 17px;
+    color: #777181;
+    font-size: .9rem;
+}
+.o_cantina_layout {
+    display: grid;
+    grid-template-columns: minmax(0, 1.55fr) minmax(280px, .95fr);
+    align-items: start;
+    gap: 16px;
+    max-width: 1500px;
+    margin: 0 auto;
+}
+.o_cantina_col_main,
+.o_cantina_col_side { display: flex; flex-direction: column; gap: 16px; min-width: 0; }
+
+/* Encabezado */
+.o_cantina_banner {
+    display: flex;
+    align-items: center;
+    gap: 18px;
+    min-height: 112px;
+    padding: 22px 26px;
+    border-radius: 13px;
+    background: linear-gradient(115deg, #51247f, #9250c8);
+    color: #fff;
+    box-shadow: 0 5px 16px rgba(67, 31, 103, .13);
+}
+.o_cantina_banner_logo { display: grid; place-items: center; flex: 0 0 42px; font-size: 1.5rem; }
+.o_cantina_banner_text { flex: 1; min-width: 0; }
+.o_cantina_banner h1 { margin: 0; color: inherit; font-size: 1.65rem; font-weight: 750; }
+.o_cantina_banner p { margin: 4px 0 0; color: rgba(255,255,255,.86); }
+.o_cantina_banner_right { display: flex; flex-direction: column; align-items: flex-start; gap: 7px; }
+.o_cantina_banner_date { white-space: nowrap; font-size: .85rem; }
+.o_cantina_banner_btn {
+    padding: 6px 10px;
+    border: 1px solid rgba(255,255,255,.55);
+    border-radius: 7px;
+    background: rgba(255,255,255,.14);
+    color: #fff;
+    cursor: pointer;
+}
+.o_cantina_banner_btn:hover { background: rgba(255,255,255,.24); }
+.o_cantina_breadcrumb { display: flex; align-items: center; gap: 8px; color: #777181; font-size: .84rem; }
+
+/* Indicadores */
+.o_cantina_kpis { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 13px; }
+.o_cantina_kpi {
+    min-width: 0;
+    padding: 16px;
+    border: 1px solid #eeeaf3;
+    border-radius: 12px;
+    background: #fff;
+    box-shadow: 0 2px 7px rgba(47, 28, 72, .045);
+    cursor: pointer;
+    transition: transform .15s ease, box-shadow .15s ease;
+}
+.o_cantina_kpi:hover { transform: translateY(-2px); box-shadow: 0 5px 14px rgba(47,28,72,.09); }
+.o_cantina_kpi_icon {
+    display: grid;
+    place-items: center;
+    width: 31px;
+    height: 31px;
+    margin-bottom: 9px;
+    border-radius: 9px;
+}
+.o_cantina_kpi_value { color: var(--cantina-purple-dark); font-size: 1.9rem; font-weight: 750; line-height: 1.15; }
+.o_cantina_kpi_title { margin-top: 5px; font-weight: 700; }
+.o_cantina_kpi_sub { margin-top: 2px; color: var(--cantina-muted); font-size: .82rem; }
+.o_cantina_bg_purple { background: #eee5f8; color: #60328e; }
+.o_cantina_bg_orange { background: #fff0dc; color: #b66a16; }
+.o_cantina_bg_green { background: #def4e7; color: #21834c; }
+.o_cantina_bg_red { background: #fde5e5; color: #b52b2b; }
+
+/* Tarjetas y paneles */
+.o_cantina_panels { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.2fr); gap: 16px; }
+.o_cantina_card {
+    min-width: 0;
+    padding: 16px;
+    border: 1px solid #eeeaf3;
+    border-radius: 12px;
+    background: #fff;
+    box-shadow: 0 2px 7px rgba(47, 28, 72, .045);
+}
+.o_cantina_card_header { display: flex; align-items: center; justify-content: space-between; gap: 10px; margin-bottom: 12px; }
+.o_cantina_card h3 { display: flex; align-items: center; gap: 7px; margin: 0; color: var(--cantina-purple); font-size: 1rem; font-weight: 750; }
+.o_cantina_title_icon { color: var(--cantina-purple); }
+.o_cantina_table { width: 100%; border-collapse: collapse; font-size: .84rem; }
+.o_cantina_table th { padding: 7px 4px; color: #777181; font-weight: 600; text-align: left; }
+.o_cantina_table td { padding: 7px 4px; border-top: 1px solid #f0edf3; }
+.o_cantina_table .text-center { text-align: center; }
+.o_cantina_cat_icon { display: inline-grid; place-items: center; width: 23px; height: 23px; margin-right: 5px; border-radius: 6px; }
+.o_cantina_pill { display: inline-flex; align-items: center; gap: 4px; padding: 4px 10px; border-radius: 20px; font-size: .76rem; font-weight: 700; white-space: nowrap; }
+.o_cantina_pill_green { background: #daf3e4; color: #18834a; }
+.o_cantina_pill_orange { background: #ffedcf; color: #a9620b; }
+.o_cantina_pill_red { background: #fde0e0; color: #ae2828; }
+.o_cantina_pill_gray,
+.o_cantina_pill_plain { background: #efedf2; color: #716b7a; }
+.o_cantina_card_footer { margin-top: 12px; padding-top: 10px; border-top: 1px solid #f0edf3; }
+.o_cantina_link { color: #68409a; font-size: .84rem; text-decoration: none; }
+.o_cantina_link:hover { color: #3e1b66; text-decoration: underline; }
+
+/* Menú del día */
+.o_cantina_datenav { display: flex; align-items: center; gap: 4px; }
+.o_cantina_round_btn,
+.o_cantina_date_btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 30px;
+    padding: 5px 8px;
+    border: 1px solid #e6e0ed;
+    border-radius: 7px;
+    background: #fff;
+    color: #51415f;
+    cursor: pointer;
+}
+.o_cantina_round_btn:hover,
+.o_cantina_date_btn:hover { background: var(--cantina-purple-light); color: var(--cantina-purple); }
+.o_cantina_dishes { display: flex; flex-direction: column; }
+.o_cantina_dish { display: flex; align-items: center; gap: 10px; padding: 9px 0; border-bottom: 1px solid #f0edf3; }
+.o_cantina_dish:last-child { border-bottom: 0; }
+.o_cantina_dish_img { display: grid; place-items: center; flex: 0 0 58px; width: 58px; height: 52px; border-radius: 8px; background: #f0edf3; object-fit: cover; color: #8d829b; }
+.o_cantina_dish_noimg { display: grid; place-items: center; }
+.o_cantina_dish_info { flex: 1; min-width: 0; }
+.o_cantina_dish_name { font-weight: 700; }
+.o_cantina_dish_desc { color: var(--cantina-muted); font-size: .8rem; }
+.o_cantina_dish_price { margin-top: 2px; font-weight: 700; font-size: .86rem; }
+.o_cantina_empty { padding: 20px 8px; color: var(--cantina-muted); text-align: center; }
+.o_cantina_empty p { margin: 7px 0 0; }
+
+/* Acciones y menú semanal */
+.o_cantina_actions { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; }
+.o_cantina_action_btn {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 9px;
+    min-height: 90px;
+    padding: 13px 8px;
+    border: 0;
+    border-radius: 10px;
+    background: #f1ecf8;
+    color: var(--cantina-purple);
+    font: inherit;
+    font-weight: 650;
+    cursor: pointer;
+}
+.o_cantina_action_btn:hover { background: #e7ddf3; }
+.o_cantina_week { display: flex; flex-direction: column; gap: 6px; }
+.o_cantina_week_row { display: flex; gap: 12px; padding: 9px 10px; border-radius: 8px; background: #f7f5fa; }
+.o_cantina_week_day { flex: 0 0 85px; font-weight: 700; color: var(--cantina-purple); }
+.o_cantina_week_desc { min-width: 0; }
+
+/* Adaptación a pantallas pequeñas */
+@media (max-width: 1200px) {
+    .o_cantina_app { grid-template-columns: 205px minmax(0, 1fr); }
+    .o_cantina_main { padding: 18px; }
+    .o_cantina_layout { grid-template-columns: minmax(0, 1fr); }
+    .o_cantina_col_side { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+@media (max-width: 800px) {
+    .o_cantina_app { grid-template-columns: 1fr; }
+    .o_cantina_sidebar { min-height: auto; padding: 10px; border-right: 0; border-bottom: 1px solid #e9e5ef; }
+    .o_cantina_nav { flex-direction: row; flex-wrap: wrap; }
+    .o_cantina_nav_title, .o_cantina_welcome { display: none; }
+    .o_cantina_nav_item { width: auto; }
+    .o_cantina_main { padding: 13px; }
+    .o_cantina_kpis { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    .o_cantina_panels, .o_cantina_col_side { grid-template-columns: 1fr; }
+    .o_cantina_banner { flex-wrap: wrap; padding: 17px; }
+    .o_cantina_banner_right { margin-left: 58px; }
+}
+@media (max-width: 480px) {
+    .o_cantina_kpis { gap: 8px; }
+    .o_cantina_kpi, .o_cantina_card { padding: 12px; }
+    .o_cantina_kpi_value { font-size: 1.55rem; }
+    .o_cantina_card_header { align-items: flex-start; flex-direction: column; }
+    .o_cantina_dish { flex-wrap: wrap; }
+}
+
+/* ==========================================
+   PANEL DEL EMPLEADO
+   El contenedor de acciones de Odoo tiene altura fija y overflow oculto,
+   por eso la raíz del panel debe ocupar el 100% y hacer su propio scroll.
+   ========================================== */
+.o_cantina_app.o_cantina_employee_app {
+    display: flex;
+    grid-template-columns: none;
+    width: 100%;
+    height: 100%;
+    min-height: 0;
+    overflow-y: auto;
+    overflow-x: hidden;
+}
+.o_cantina_emp_sidebar {
+    position: sticky;
+    top: 0;
+    align-self: flex-start;
+    flex: 0 0 240px;
+    width: 240px;
+    height: 100%;
+    min-height: 100%;
+    padding: 24px 14px;
+    background: #202b3c;
+    color: #fff;
+    box-sizing: border-box;
+}
+.o_cantina_emp_brand { text-align: center; padding: 12px 8px 28px; }
+.o_cantina_emp_brand h3 { margin-top: 10px; color: #fff; }
+.o_cantina_emp_brand small { color: #cbd5e1; }
+.o_cantina_emp_nav { display: flex; flex-direction: column; gap: 10px; }
+.o_cantina_emp_nav_btn {
+    position: relative;
+    width: 100%;
+    padding: 13px;
+    border: 0;
+    border-radius: 8px;
+    background: transparent;
+    color: #fff;
+    text-align: left;
+    cursor: pointer;
+}
+.o_cantina_emp_nav_btn:hover { background: rgba(255,255,255,.08); }
+.o_cantina_emp_nav_btn.active { background: #16a085; }
+.o_cantina_emp_badge {
+    float: right;
+    min-width: 22px;
+    padding: 1px 7px;
+    border-radius: 11px;
+    background: #fff;
+    color: #16a085;
+    font-size: .75rem;
+    font-weight: 700;
+    text-align: center;
+}
+.o_cantina_emp_main {
+    flex: 1;
+    min-width: 0;
+    max-width: 1600px;
+    margin: 0 auto;
+    padding: 28px;
+    box-sizing: border-box;
+}
+.o_cantina_gap { margin: 20px 0; }
+.o_cantina_gap_sm { padding: 16px; }
+.o_cantina_qty { min-width: 110px; }
+.o_cantina_order_row { padding: 16px; border-bottom: 1px solid #eee; }
+.o_cantina_employee_app .o_cantina_dish_img { object-fit: cover; }
+
+@media (max-width: 800px) {
+    .o_cantina_app.o_cantina_employee_app { flex-direction: column; }
+    .o_cantina_emp_sidebar { position: static; flex: none; width: 100%; height: auto; min-height: 0; padding: 12px; }
+    .o_cantina_emp_brand { padding: 4px 0 12px; }
+    .o_cantina_emp_nav { flex-direction: row; flex-wrap: wrap; }
+    .o_cantina_emp_nav_btn { width: auto; flex: 1; }
+    .o_cantina_emp_main { padding: 14px; }
+}
+
+
+/* Filtros por categoría (portal del empleado) */
+.o_cantina_filters {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin: 4px 0 14px;
+}
+.o_cantina_chip {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 7px 14px;
+    border: 1px solid #ddd6e4;
+    border-radius: 999px;
+    background: #fff;
+    color: #51415f;
+    font-weight: 600;
+    font-size: .85rem;
+    cursor: pointer;
+    transition: background .15s, color .15s, border-color .15s;
+}
+.o_cantina_chip:hover { background: #f0edf3; }
+.o_cantina_chip.active {
+    background: #16a085;
+    border-color: #16a085;
+    color: #fff;
+}
+.o_cantina_chip_count {
+    min-width: 20px;
+    padding: 0 6px;
+    border-radius: 10px;
+    background: rgba(0,0,0,.08);
+    font-size: .72rem;
+    text-align: center;
+}
+.o_cantina_chip.active .o_cantina_chip_count { background: rgba(255,255,255,.28); }

@@ -1,0 +1,18 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_cantina_product_employee,cantina.product employee,model_cantina_product,group_cantina_user,1,0,0,0
+access_cantina_product_manager,cantina.product manager,model_cantina_product,group_cantina_manager,1,1,1,1
+access_cantina_category_employee,cantina.category employee,model_cantina_category,group_cantina_user,1,0,0,0
+access_cantina_category_manager,cantina.category manager,model_cantina_category,group_cantina_manager,1,1,1,1
+access_cantina_menu_employee,cantina.menu employee,model_cantina_menu,group_cantina_user,1,0,0,0
+access_cantina_menu_manager,cantina.menu manager,model_cantina_menu,group_cantina_manager,1,1,1,1
+access_cantina_menu_line_employee,cantina.menu.line employee,model_cantina_menu_line,group_cantina_user,1,0,0,0
+access_cantina_menu_line_manager,cantina.menu.line manager,model_cantina_menu_line,group_cantina_manager,1,1,1,1
+access_cantina_weekly_employee,cantina.weekly.menu employee,model_cantina_weekly_menu,group_cantina_user,1,0,0,0
+access_cantina_weekly_manager,cantina.weekly.menu manager,model_cantina_weekly_menu,group_cantina_manager,1,1,1,1
+access_cantina_config_manager,cantina.config manager,model_cantina_config,group_cantina_manager,1,1,1,1
+access_cantina_shift_manager,cantina.shift manager,model_cantina_shift,group_cantina_manager,1,1,1,1
+access_cantina_order_employee,cantina.order employee,model_cantina_order,group_cantina_user,1,0,1,0
+access_cantina_order_manager,cantina.order manager,model_cantina_order,group_cantina_manager,1,1,1,1
+access_cantina_order_line_employee,cantina.order.line employee,model_cantina_order_line,group_cantina_user,1,0,1,0
+access_cantina_order_line_manager,cantina.order.line manager,model_cantina_order_line,group_cantina_manager,1,1,1,1
+access_cantina_order_pay_wizard_manager,cantina.order.pay.wizard manager,model_cantina_order_pay_wizard,group_cantina_manager,1,1,1,1

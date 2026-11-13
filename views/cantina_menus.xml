@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- ====================================== -->
+    <!-- MENÚ DE LA ADMINISTRADORA             -->
+    <!-- ====================================== -->
+
+    <menuitem
+        id="menu_cantina_root"
+        name="Cantina"
+        sequence="50"
+        web_icon="cantina_app,static/description/icon.png"
+        groups="group_cantina_manager,group_cantina_user"
+    />
+
+    <menuitem
+        id="menu_cantina_home"
+        name="Inicio"
+        parent="menu_cantina_root"
+        action="action_cantina_dashboard"
+        groups="group_cantina_manager"
+        sequence="1"
+    />
+
+    <menuitem
+        id="menu_cantina_gestion"
+        name="Gestión"
+        parent="menu_cantina_root"
+        groups="group_cantina_manager"
+        sequence="10"
+    />
+
+    <menuitem
+        id="menu_cantina_products"
+        name="Productos"
+        parent="menu_cantina_gestion"
+        action="action_cantina_product"
+        sequence="1"
+    />
+
+    <menuitem
+        id="menu_cantina_menu_daily"
+        name="Menú Diario"
+        parent="menu_cantina_gestion"
+        action="action_cantina_menu"
+        sequence="2"
+    />
+
+    <menuitem
+        id="menu_cantina_menu_weekly"
+        name="Menú Semanal"
+        parent="menu_cantina_gestion"
+        action="action_cantina_weekly"
+        sequence="3"
+    />
+
+    <menuitem
+        id="menu_cantina_stock"
+        name="Stock"
+        parent="menu_cantina_gestion"
+        action="action_cantina_stock"
+        sequence="4"
+    />
+
+    <menuitem
+        id="menu_cantina_reports"
+        name="Reportes"
+        parent="menu_cantina_gestion"
+        action="action_cantina_report"
+        sequence="5"
+    />
+
+    <menuitem
+        id="menu_cantina_orders"
+        name="Pedidos de empleados"
+        parent="menu_cantina_root"
+        action="action_cantina_orders"
+        groups="group_cantina_manager"
+        sequence="20"
+    />
+
+
+    <menuitem
+        id="menu_cantina_pos"
+        name="Caja"
+        parent="menu_cantina_root"
+        action="action_cantina_open_pos"
+        groups="group_cantina_manager"
+        sequence="25"
+    />
+
+
+    <!-- ====================================== -->
+    <!-- MENÚ DEL EMPLEADO                     -->
+    <!-- ====================================== -->
+
+    <menuitem
+        id="menu_cantina_employee_home"
+        name="Menú y pedidos"
+        parent="menu_cantina_root"
+        action="action_cantina_employee_dashboard"
+        groups="group_cantina_user"
+        sequence="5"
+    />
+
+</odoo>
